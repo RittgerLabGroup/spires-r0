@@ -19,6 +19,7 @@ from spires_contract.spectra import validate_background_spectra
 from spires_io.logging_utils import log_event
 
 from spires_r0.io import sanitize_netcdf_dataset
+from spires_r0.grid import validate_r0_grid
 
 
 LOGGER = logging.getLogger(__name__)
@@ -238,6 +239,8 @@ def validate_r0_dataset(
         raise TypeError(
             f"R0 product must be an xarray.Dataset, got {type(dataset).__name__}"
         )
+
+    validate_r0_grid(dataset)
 
     missing = [name for name in R0_REQUIRED_VARS if name not in dataset]
     if missing:
@@ -459,6 +462,7 @@ def reduce_prepared_scene_for_r0(
     sensor_display_name: str,
     copy_spatial_metadata_fn: CopySpatialMetadataFn,
 ) -> xr.Dataset:
+    validate_r0_grid(prepared_ds)
     missing = [name for name in staging_variables if name not in prepared_ds]
     if missing:
         raise ValueError(f"Prepared {sensor_display_name} scene is missing required R0 staging variables: {missing}")
@@ -642,6 +646,7 @@ def build_r0(
 ) -> xr.Dataset:
     if "time" not in prepared_timeseries.dims:
         raise ValueError("prepared_timeseries must have a 'time' dimension")
+    validate_r0_grid(prepared_timeseries)
     logger = logger or LOGGER
 
     candidate_ds = build_r0_candidate_metrics(

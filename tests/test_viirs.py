@@ -50,7 +50,7 @@ def build_mock_prepared_scene(
             "reflectance": reflectance,
             "sensor_zenith": xr.DataArray(zenith_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),
             "sensor_azimuth": xr.DataArray(azimuth_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),
-            "solar_zenith": xr.DataArray(solar_zenith_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),
+            "solar_zenith": xr.DataArray(solar_zenith_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}, attrs={"units": "degrees"}),
             "solar_azimuth": xr.DataArray(solar_azimuth_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),
             "valid_r0_mask": xr.DataArray(np.array([[True, True]]), dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),
             "mask_water": xr.DataArray(water_values, dims=("y", "x"), coords={"y": [0], "x": [0, 1]}),

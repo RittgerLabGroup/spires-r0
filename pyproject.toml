@@ -17,6 +17,7 @@ dependencies = [
     "numpy",
     "xarray",
     "netCDF4",
+    "pyproj",
     "rioxarray",
 ]
 

@@ -63,3 +63,21 @@ Zarr-backed staging, Dask chunking, and progress bars are optional:
 ```bash
 pip install "spires-r0[all]"
 ```
+
+## Georeferenced R0 grids
+
+Georeferenced inputs and products must use pixel-center `x`/`y` coordinates that
+agree with their scalar `spatial_ref` GeoTransform. R0 staging, compositing,
+validation, and reuse now enforce that contract. The current MODIS/VIIRS reader
+derives centers from full-precision HDF-EOS tile bounds; do not round transform
+strings or reuse source edge coordinates as centers.
+
+For a legacy product whose scientific arrays are already on the correct tile,
+`spires_r0.repair_r0_grid_metadata(dataset, reference_grid)` provides an explicit
+metadata-only repair. Supply a reference grid independently parsed from its
+source product. The function requires matching dimensions, CRS, and recorded
+tile bounds, and accepts only canonical centers or the recognized legacy edge
+coordinate convention. It never resamples spectra or repairs arbitrary shifts.
+Back up the original file, verify unchanged scientific arrays, and replace it
+atomically after validation. Bare, unreferenced in-memory grids remain supported
+by the compositing API; they are not georeferenced operational products.
