@@ -12,8 +12,8 @@ license = "MIT"
 authors = [{ name = "Niklas Griessbaum" }]
 keywords = ["snow", "remote sensing", "xarray", "background reflectance"]
 dependencies = [
-    "spires-contract @ git+https://github.com/SPIReS-Organization/spires-contract.git@main",
-    "spires-io @ git+https://github.com/SPIReS-Organization/spires-io.git@main",
+    "spires-contract @ git+https://github.com/RittgerLabGroup/spires-contract.git@dda5155c9af5d4976d67de0fb6de1ff1d73d080d",
+    "spires-io @ git+https://github.com/RittgerLabGroup/spires-io.git@2778eac9171fde9c9d67350731349f438a9cf56f",
     "numpy",
     "xarray",
     "netCDF4",
@@ -28,8 +28,8 @@ all = ["tqdm"]
 test = ["pytest", "dask"]
 
 [project.urls]
-Homepage = "https://github.com/SPIReS-Organization/spires-r0"
-Repository = "https://github.com/SPIReS-Organization/spires-r0"
+Homepage = "https://github.com/RittgerLabGroup/spires-r0"
+Repository = "https://github.com/RittgerLabGroup/spires-r0"
 
 [tool.setuptools.packages.find]
 where = ["src"]
