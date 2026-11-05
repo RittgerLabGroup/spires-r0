@@ -56,18 +56,28 @@ data = SpiresData(scene=scene, background=background)
 validate_for_inversion(data)
 ```
 
-## Optional execution features
+## In-memory execution
 
-Zarr-backed staging, Dask chunking, and progress bars are optional:
+All VIIRS and MODIS R0 builds hold the complete summer stack for one tile in
+memory before selecting the background. Caller-supplied lazy datasets are loaded
+once before selection. Allocate RAM for the scenes, concatenated stack and
+selection intermediates; full-tile jobs can require several hundred GiB.
+
+Zarr staging and chunked R0 execution have been removed. The retired
+`zarr_path`, `zarr_mode` and `chunks` arguments raise `TypeError`, including when
+set to `None`. Remove these arguments from old callers; use `r0_path` for the
+atomic NetCDF product. Do not reinstate a disk-backed R0 execution mode.
+
+Progress bars remain optional:
 
 ```bash
-pip install "spires-r0[all]"
+pip install "spires-r0[progress]"
 ```
 
 ## Georeferenced R0 grids
 
 Georeferenced inputs and products must use pixel-center `x`/`y` coordinates that
-agree with their scalar `spatial_ref` GeoTransform. R0 staging, compositing,
+agree with their scalar `spatial_ref` GeoTransform. R0 preparation, compositing,
 validation, and reuse now enforce that contract. The current MODIS/VIIRS reader
 derives centers from full-precision HDF-EOS tile bounds; do not round transform
 strings or reuse source edge coordinates as centers.
